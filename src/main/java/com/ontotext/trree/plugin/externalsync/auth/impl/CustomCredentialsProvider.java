@@ -3,39 +3,38 @@ package com.ontotext.trree.plugin.externalsync.auth.impl;
 import com.ontotext.trree.plugin.externalsync.auth.HttpClientConfigurator;
 import org.apache.http.HttpRequestInterceptor;
 import org.apache.http.auth.AuthScope;
-import org.apache.http.auth.Credentials;
+import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
+import org.apache.http.impl.client.BasicCredentialsProvider;
 
 public class CustomCredentialsProvider implements HttpClientConfigurator {
 
     @Override
     public CredentialsProvider getCredentialsProvider(String url, String instanceId) {
 
-        CredentialsProvider provider = new CredentialsProvider() {
-            @Override
-            public void setCredentials(AuthScope authScope, Credentials credentials) {
+        String username = getUsername(url, instanceId);
+        String password = getPassword(url, instanceId);
 
-                //todo implement if necessary
-
-            }
-
-            @Override
-            public Credentials getCredentials(AuthScope authScope) {
-
-                //todo implement custom logic for credentials acquisition
-
-                return null;
-            }
-
-            @Override
-            public void clear() {
-
-                //todo implement if necessary
-
-            }
-        };
+        // You can create custom class implementing org.apache.http.client.CredentialsProvider
+        CredentialsProvider provider = new BasicCredentialsProvider();
+        provider.setCredentials(AuthScope.ANY,
+                new UsernamePasswordCredentials(username, password));
 
         return provider;
+    }
+
+    private String getUsername(String url, String instanceId) {
+
+        //todo implement
+        throw new RuntimeException("not implemented");
+
+    }
+
+    private String getPassword(String url, String instanceId) {
+
+        //todo implement
+        throw new RuntimeException("not implemented");
+
     }
 
     /**
